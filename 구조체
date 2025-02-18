@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+typedef struct {
+    int age;
+    char* name;
+    char* hometown;
+    char* favorite_food;
+} Person;
+
+void introduce(Person p);
+void talk(Person p);
+
+int main() {
+    Person person1 = { 20, "홍길동", "한양", "떡볶이" };
+    Person person2 = { 50, "임꺽정", "평양", "떡국" };
+
+    introduce(person1);
+    talk(person1);
+
+    introduce(person2);
+    talk(person2);
+
+    return 0;
+}
+
+void introduce(Person p) {
+    printf("==  소개 시작  ==\n");
+    printf("이름 : %s\n", p.name);
+    printf("나이 : %d살\n", p.age);
+    printf("고향 : %s\n", p.hometown);
+    printf("==   소개 끝   ==\n");
+}
+
+void talk(Person p) {
+    printf("이야기 시작 : 안녕하세요. 저는 %d살, %s 입니다. 제 고향인 %s 에서는...\n", p.age, p.name, p.hometown);
+}
