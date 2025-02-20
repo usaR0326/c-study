@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void print_99dan() {
+    int* dan = (int*)malloc(sizeof(int)); // 동적 할당
+    int* i = (int*)malloc(sizeof(int));   // 동적 할당
+
+    if (dan == NULL || i == NULL) { // 할당 실패 체크
+        printf("메모리 할당 실패!\n");
+        return;
+    }
+
+    for (*dan = 1; *dan <= 9; (*dan)++) {
+        printf("\n== %d단 ==\n", *dan);
+        for (*i = 1; *i <= 9; (*i)++) {
+            printf("%d * %d = %d\n", *dan, *i, (*dan) * (*i));
+        }
+    }
+
+    free(dan); // 동적 할당 해제
+    free(i);   // 동적 할당 해제
+}
+
+int main(void) {
+    print_99dan();
+    return 0;
+}
