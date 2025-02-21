@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+#pragma warning (disable: 4996)
+
+#define MAX_PEOPLE 10
+#define NAME_SIZE 20
+
+struct Person {
+    char name[NAME_SIZE];
+    int age;
+};
+
+int main(void) {
+    int people_count;
+    struct Person people[MAX_PEOPLE];
+
+    while (1) {
+        printf("사람의 숫자를 입력해주세요. : ");
+        scanf("%d", &people_count);
+
+        if (people_count < 1 || people_count > MAX_PEOPLE) {
+            printf("1 이상 %d 이하의 숫자를 입력해주세요.\n", MAX_PEOPLE);
+        }
+        else {
+            break;
+        }
+    }
+
+    for (int i = 0; i < people_count; i++) {
+        printf("%d번째 사람의 이름을 입력해주세요 : ", i + 1);
+        scanf("%s", people[i].name);
+
+        printf("%d번째 사람의 나이를 입력해주세요 : ", i + 1);
+        scanf("%d", &people[i].age);
+    }
+
+    printf("\n== 입력된 사람 정보 ==\n");
+    for (int i = 0; i < people_count; i++) {
+        printf("%d번째 사람의 이름, 나이 : %s, %d세\n", i + 1, people[i].name, people[i].age);
+    }
+
+    return 0;
+}
