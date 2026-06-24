@@ -1,31 +1,69 @@
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-struct Student {
-    int no;
-    char name[20];
-    int age;
-    struct Student* pair;
-};
+// 10진수를 2진수 문자열로 변환하는 함수
+void decimalToBinary(int n) {
+    int binary[32];
+    int i = 0;
 
-void introduce(struct Student* s) {
-    printf("안녕하세요 저는 %d번 %d살 %s이고요, 저의 짝궁은 %d번 %d살 %s입니다.\n",
-        s->no, s->age, s->name, s->pair->no, s->pair->age, s->pair->name);
+    if (n == 0) {
+        printf("2진수: 0\n");
+        return;
+    }
+
+    // 2로 나눈 나머지를 배열에 저장
+    while (n > 0) {
+        binary[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+
+    // 역순으로 출력하여 정확한 2진수 형태 표기
+    printf("2진수: ");
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%d", binary[j]);
+    }
+    printf("\n");
 }
 
-int main(void) {
-    struct Student s1 = { 1, "홍길동", 20, NULL };
-    struct Student s2 = { 2, "홍길순", 21, NULL };
-    struct Student s3 = { 3, "황진이", 22, NULL };
+// 2진수 문자열을 10진수로 변환하는 함수
+void binaryToDecimal(char binary[]) {
+    int decimal = 0;
+    int length = strlen(binary);
 
-    s1.pair = &s3;
+    for (int i = 0; i < length; i++) {
+        // 문자가 '1'일 때 해당 자릿수의 가중치(2의 거듭제곱)를 더함
+        if (binary[i] == '1') {
+            decimal += pow(2, length - 1 - i);
+        }
+    }
+    printf("10진수: %d\n", decimal);
+}
 
-    introduce(&s1);
+int main() {
+    int menu, decimalNum;
+    char binaryStr[32];
 
-    s1.pair = &s2;
+    printf("=== 진수 변환 프로그램 ===\n");
+    printf("1. 10진수 -> 2진수\n");
+    printf("2. 2진수 -> 10진수\n");
+    printf("선택: ");
+    scanf("%d", &menu);
 
-    printf("\n--- 짝궁이 변경되었습니다. ---\n\n");
-
-    introduce(&s1);
+    if (menu == 1) {
+        printf("10진수 입력: ");
+        scanf("%d", &decimalNum);
+        decimalToBinary(decimalNum);
+    } 
+    else if (menu == 2) {
+        printf("2진수 입력: ");
+        scanf("%s", binaryStr);
+        binaryToDecimal(binaryStr);
+    } 
+    else {
+        printf("잘못된 선택입니다.\n");
+    }
 
     return 0;
 }
