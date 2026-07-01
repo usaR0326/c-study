@@ -1,69 +1,59 @@
 #include <stdio.h>
-#include <string.h>
-#include <math.h>
 
-// 10진수를 2진수 문자열로 변환하는 함수
-void decimalToBinary(int n) {
-    int binary[32];
-    int i = 0;
-
-    if (n == 0) {
-        printf("2진수: 0\n");
-        return;
-    }
-
-    // 2로 나눈 나머지를 배열에 저장
-    while (n > 0) {
-        binary[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-
-    // 역순으로 출력하여 정확한 2진수 형태 표기
-    printf("2진수: ");
-    for (int j = i - 1; j >= 0; j--) {
-        printf("%d", binary[j]);
-    }
-    printf("\n");
-}
-
-// 2진수 문자열을 10진수로 변환하는 함수
-void binaryToDecimal(char binary[]) {
-    int decimal = 0;
-    int length = strlen(binary);
-
-    for (int i = 0; i < length; i++) {
-        // 문자가 '1'일 때 해당 자릿수의 가중치(2의 거듭제곱)를 더함
-        if (binary[i] == '1') {
-            decimal += pow(2, length - 1 - i);
+// 1. Onefun: 반환값 없음, 2단부터 9단까지 출력 (for 문 이용)
+void Onefun() {
+    printf("--- Onefun (2단~9단 출력) ---\n");
+    for (int i = 2; i <= 9; i++) {
+        printf("=== %d단 ===\n", i);
+        for (int j = 1; j <= 9; j++) {
+            printf("%d x %d = %d\n", i, j, i * j);
         }
+        printf("\n");
     }
-    printf("10진수: %d\n", decimal);
 }
 
-int main() {
-    int menu, decimalNum;
-    char binaryStr[32];
+// 2. Twofun: 매개변수 있고, 반환값 없음
+// (a < b) a단부터 b단까지 출력, (a > b) b단부터 a단까지 출력
+void Twofun(int a, int b) {
+    printf("--- Twofun (%d단~%d단 출력) ---\n", a, b);
+    int start = (a < b) ? a : b;
+    int end = (a < b) ? b : a;
 
-    printf("=== 진수 변환 프로그램 ===\n");
-    printf("1. 10진수 -> 2진수\n");
-    printf("2. 2진수 -> 10진수\n");
-    printf("선택: ");
-    scanf("%d", &menu);
-
-    if (menu == 1) {
-        printf("10진수 입력: ");
-        scanf("%d", &decimalNum);
-        decimalToBinary(decimalNum);
-    } 
-    else if (menu == 2) {
-        printf("2진수 입력: ");
-        scanf("%s", binaryStr);
-        binaryToDecimal(binaryStr);
-    } 
-    else {
-        printf("잘못된 선택입니다.\n");
+    for (int i = start; i <= end; i++) {
+        printf("=== %d단 ===\n", i);
+        for (int j = 1; j <= 9; j++) {
+            printf("%d x %d = %d\n", i, j, i * j);
+        }
+        printf("\n");
     }
+}
 
+// 3. Threefun: 매개변수 있고, 실수값 반환 (call-by-value)
+// 반환값: a / b
+float Threefun(int a, int b) {
+    return (float)a / b; // 정수 나눗셈 방지를 위해 형변환
+}
+
+// 4. Fourfun: 매개변수 있고, 실수값 반환 (call-by-reference / 포인터 연산)
+// ※ main 함수의 Fourfun(&a, &b) 호출 형태에 맞춰 포인터(*)로 구현했습니다.
+float Fourfun(int *a, int *b) {
+    return (float)(*a) / (*b); // 주소가 가리키는 값(포인터 연산)을 이용한 나눗셈
+}
+
+int main(void) {
+    int a = 5, b = 3;
+    
+    Onefun();
+    
+    Twofun(a, b);
+    
+    // call-by-value로 값 전달 (5 / 3 = 1.667)
+    float f1 = Threefun(a, b);
+    printf("Threefun result : %6.3f \n", f1);
+    
+    // call-by-reference로 주소 전달
+    float f2 = Fourfun(&a, &b);
+    printf("Fourfun result : %6.3f \n", f2);
+    
     return 0;
 }
